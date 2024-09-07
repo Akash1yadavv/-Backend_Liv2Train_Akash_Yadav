@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.senpiper.dtos.TrainingCenterReqDto;
@@ -32,8 +33,12 @@ public class TrainingCenterController {
     }
 
     @GetMapping("/training-centers")
-    public ResponseEntity<List<TrainingCenter>> getAllTrainingCenters() {
-        List<TrainingCenter> centers = trainingCenterService.getAllTrainingCenters();
-        return new ResponseEntity<>(centers, HttpStatus.OK);
+    public List<TrainingCenter> getAllTrainingCenters(
+            @RequestParam(required = false) String centerName,
+            @RequestParam(required = false) String centerCode,
+            @RequestParam(required = false) String city) {
+
+        // Call service to get filtered training centers
+        return trainingCenterService.getAllTrainingCenters(centerName, centerCode, city);
     }
 }

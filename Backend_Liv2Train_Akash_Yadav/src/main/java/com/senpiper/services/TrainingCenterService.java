@@ -9,5 +9,5 @@ import com.senpiper.model.TrainingCenter;
 public interface TrainingCenterService {
 	
 	TrainingCenter registerTrainingCenter(TrainingCenterReqDto dto) throws TrainingCenterException;
-	List<TrainingCenter> getAllTrainingCenters() throws TrainingCenterException;
+	List<TrainingCenter> getAllTrainingCenters(String centerName, String centerCode, String city) throws TrainingCenterException;
 }

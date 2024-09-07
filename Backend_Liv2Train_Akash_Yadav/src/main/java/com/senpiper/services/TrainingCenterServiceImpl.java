@@ -1,6 +1,5 @@
 package com.senpiper.services;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -42,12 +41,23 @@ public class TrainingCenterServiceImpl implements TrainingCenterService{
         return trainingCenterRepository.save(trainingCenter);
 	}
 
-	@Override
-	public List<TrainingCenter> getAllTrainingCenters() throws TrainingCenterException {
-        List<TrainingCenter> centers = trainingCenterRepository.findAll();
-
-        // Return an empty list if no centers are found
-        return centers.isEmpty() ? new ArrayList<>() : centers;
-	}
+	 @Override
+	    public List<TrainingCenter> getAllTrainingCenters(String centerName, String centerCode, String city) {
+	        // Handle filtering logic
+	        if (centerName != null) {
+	            return trainingCenterRepository.findByCenterNameContaining(centerName);
+	        } else if (centerCode != null) {
+	            Optional<TrainingCenter> tr =  trainingCenterRepository.findByCenterCode(centerCode);
+	            List<TrainingCenter> list = new ArrayList<>();
+	            if(tr.isPresent()) {
+	            	list.add(tr.get());
+	            }
+	            return list;
+	        } else if (city != null) {
+	            return trainingCenterRepository.findByAddress_City(city);
+	        }
+	        // If no filter parameters are provided, return all centers
+	        return trainingCenterRepository.findAll();
+	    }
 
 }
